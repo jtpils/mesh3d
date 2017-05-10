@@ -1,0 +1,54 @@
+/*=========================================================================
+
+  Program:   Mesh3D: Command-line tool for 3D mesh manipulation
+  Module:    %fn%.cxx
+  Language:  C++
+  Website:   itksnap.org/mesh3d
+  Copyright (c) 2017 Paul A. Yushkevich
+  
+  This file is part of Mesh3D, a command-line tool for 3D mesh manipulation
+
+  Mesh3D is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=========================================================================*/
+#include "%fn%.h"
+#include "CommandLineHelper.h"
+
+bool
+%fn%::Parse(CommandLineHelper &cl)
+{
+  if(!cl.try_command("-command"))
+    return false;
+
+  // Get parameters
+  ...
+
+  // Run command
+  this->Run(...)
+
+  return true;
+}
+
+void
+%fn%::Run(%param%)
+{
+  // Get mesh from stack
+  // MeshPointer mesh = this->PopPolyData();
+
+  // Do some processing ...
+  // MeshPointer result = ...;
+  
+  // Put result on stack
+  // this->Push(result)
+}
