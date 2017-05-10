@@ -25,6 +25,8 @@
 #include "PrintInfo.h"
 #include "CommandLineHelper.h"
 #include "vtkPolyData.h"
+#include "vtkPointData.h"
+#include "vtkCellData.h"
 
 bool
 PrintInfo::Parse(CommandLineHelper &cl)
@@ -49,4 +51,22 @@ PrintInfo::Run()
   this->Info("  Number of Cells: %d\n", mesh->GetNumberOfCells());
 
   // Print information on point data, cell data, etc.
+  if(mesh->GetPointData()->GetNumberOfArrays())
+    {
+    this->Info("  Point Arrays:\n");
+    for(int i = 0; i < mesh->GetPointData()->GetNumberOfArrays(); i++)
+      this->Info("    %s: %d %s\n", 
+        mesh->GetPointData()->GetArray(i)->GetName(),
+        mesh->GetPointData()->GetArray(i)->GetNumberOfComponents(),
+        mesh->GetPointData()->GetArray(i)->GetDataTypeAsString());
+    }
+  if(mesh->GetCellData()->GetNumberOfArrays())
+    {
+    this->Info("  Cell Arrays:\n");
+    for(int i = 0; i < mesh->GetCellData()->GetNumberOfArrays(); i++)
+      this->Info("    %s: %d %s\n", 
+        mesh->GetCellData()->GetArray(i)->GetName(),
+        mesh->GetCellData()->GetArray(i)->GetNumberOfComponents(),
+        mesh->GetCellData()->GetArray(i)->GetDataTypeAsString());
+    }
 }

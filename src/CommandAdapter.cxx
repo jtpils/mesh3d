@@ -24,6 +24,8 @@
 =========================================================================*/
 #include "CommandAdapter.h"
 #include <vtkPolyData.h>
+#include <vtkCellData.h>
+#include <vtkPointData.h>
 
 void
 CommandAdapter::Push(PolyDataType *p)
@@ -62,5 +64,41 @@ void CommandAdapter::ThrowException(const char *format,...)
   va_end (args);
 
   throw MeshException(buffer);
+}
+
+int CommandAdapter::GetDataArraySize(PolyDataType *mesh)
+{
+  return c->GetCellMode() ? mesh->GetNumberOfCells() : mesh->GetNumberOfPoints();
+}
+
+void CommandAdapter::AddDataArray(PolyDataType *mesh, DataArrayType *array)
+{
+  if(c->GetCellMode())
+    {
+    mesh->GetCellData()->AddArray(array);
+    }
+  else
+    {
+    mesh->GetPointData()->AddArray(array);
+    }
+}
+
+CommandAdapter::DataArrayPointer 
+CommandAdapter::GetDataArray(PolyDataType *mesh, const string &array, bool throw_if_missing)
+{
+  DataArrayPointer p;
+  if(c->GetCellMode())
+    {
+    p = mesh->GetCellData()->GetArray(array.c_str());
+    }
+  else
+    {
+    p = mesh->GetPointData()->GetArray(array.c_str());
+    }
+
+  if(throw_if_missing && p == 0)
+    this->ThrowException("Missing array %s in mesh", array.c_str());
+
+  return p;
 }
 

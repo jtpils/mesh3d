@@ -33,7 +33,9 @@ class CommandLineHelper;
 #define MESH3D_STANDARD_TYPEDEFS \
   typedef Mesh3D Converter; \
   typedef Converter::PolyDataType PolyDataType; \
-  typedef Converter::PolyDataPointer PolyDataPointer;
+  typedef Converter::PolyDataPointer PolyDataPointer; \
+  typedef Converter::DataArrayType DataArrayType; \
+  typedef Converter::DataArrayPointer DataArrayPointer;
 
 /**
  * Base class for all command adapters - provides easy access 
@@ -59,6 +61,11 @@ protected:
   PolyDataPointer TopPolyData() { return c->TopPolyData(); }
   PolyDataPointer PopPolyData() { return c->PopPolyData(); }
   void Push(PolyDataType *pd);
+
+  // Data array access based on current mode
+  DataArrayPointer GetDataArray(PolyDataType *mesh, const string &array, bool throw_if_missing = true);
+  void AddDataArray(PolyDataType *mesh, DataArrayType *array);
+  int GetDataArraySize(PolyDataType *mesh);
 
   Converter *c;
 };

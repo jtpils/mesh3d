@@ -17,9 +17,12 @@ INCLUDE_DIRECTORIES(adapters)
 # Adapter sources
 SET(ADAPTER_SRC
   src/CommandAdapter.cxx
+  adapters/DiffuseArray.cxx
+  adapters/DumpArray.cxx
   adapters/PrintInfo.cxx
   adapters/ReadMesh.cxx
   adapters/WriteMesh.cxx
+  adapters/AddArray.cxx
   )
 
 # Main executable

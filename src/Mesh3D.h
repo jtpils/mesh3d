@@ -33,6 +33,7 @@ using std::string;
 
 class vtkPointSet;
 class vtkPolyData;
+class vtkDataArray;
 class CommandAdapter;
 
 /**
@@ -75,6 +76,9 @@ public:
   typedef vtkPointSet PointSetType;
   typedef vtkSmartPointer<PointSetType> PointSetPointer;
 
+  typedef vtkDataArray DataArrayType;
+  typedef vtkSmartPointer<DataArrayType> DataArrayPointer;
+
   // Constructor
   Mesh3D();
 
@@ -91,6 +95,9 @@ public:
   void Debug(const char *text);
   void Info(const char *text);
 
+  // Are we using cell mode?
+  bool GetCellMode() const { return m_CellMode; }
+
 protected:
 
   // A stack of VTK objects
@@ -102,6 +109,9 @@ protected:
 
   // Verbose mode?
   bool m_Verbose;
+
+  // Cell mode for arrays
+  bool m_CellMode;
 };
 
 

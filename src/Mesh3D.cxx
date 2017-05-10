@@ -27,6 +27,9 @@
 
 #include "CommandAdapter.h"
 
+#include "AddArray.h"
+#include "DiffuseArray.h"
+#include "DumpArray.h"
 #include "PrintInfo.h"
 #include "ReadMesh.h"
 #include "WriteMesh.h"
@@ -36,12 +39,16 @@
 Mesh3D::Mesh3D()
 {
   // Register all the adapters
+  m_Adapters.push_back(new AddArray(this));
+  m_Adapters.push_back(new DiffuseArray(this));
+  m_Adapters.push_back(new DumpArray(this));
   m_Adapters.push_back(new PrintInfo(this));
   m_Adapters.push_back(new ReadMesh(this));
   m_Adapters.push_back(new WriteMesh(this));
 
   // Global flags
   m_Verbose = false;
+  m_CellMode = false;
 }
 
 void Mesh3D::ProcessCommandLine(const int argc, char *argv[])
@@ -56,6 +63,14 @@ void Mesh3D::ProcessCommandLine(const int argc, char *argv[])
     if(cl.try_command("-verbose"))
       {
       m_Verbose = true;
+      }
+    else if(cl.try_command("-cell-mode") || cl.try_command("-cm"))
+      {
+      m_CellMode = true;
+      }
+    else if(cl.try_command("-point-mode") || cl.try_command("-pm"))
+      {
+      m_CellMode = false;
       }
     else
       {
@@ -103,7 +118,6 @@ void Mesh3D::Push(PointSetType *data)
 {
   m_Stack.push_back(data);
 }
-
 
 
 int main(int argc, char *argv[])

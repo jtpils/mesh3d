@@ -126,6 +126,16 @@ public:
     else return false;
   }
 
+  bool try_command(const char *command1, const char *command2)
+  {
+    return try_command(command1) || try_command(command2);
+  }
+
+  bool try_command(const char *command1, const char *command2, const char *command3)
+  {
+    return try_command(command1) || try_command(command2) || try_command(command3);
+  }
+
   /**
    * Read a string that is not a command (may not start with a -)
    */
